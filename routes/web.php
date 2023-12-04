@@ -1,10 +1,12 @@
 <?php
 
+use App\Models\Shopper;
 use Illuminate\Support\Facades\Route;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Models\test;
+use Spatie\QueryBuilder\AllowedInclude;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,17 +20,25 @@ use App\Models\test;
 */
 
 Route::get('/', function () {
-    $result = QueryBuilder::for(test::class)
-                             ->allowedFilters(['name',
-                             'email',
-                             AllowedFilter::exact('id'),AllowedFilter::scope('verified')])
+    $result = QueryBuilder::for(Shopper::class)
+                            //  ->allowedFilters(['name',
+                            //  'email',
+                            //  AllowedFilter::exact('id'),AllowedFilter::scope('verified')])
 
                              ->allowedSorts(['name'])
-                             ->allowedFields(['name','email'])
-                            ->where('active',1)
-                            ->allowedIncludes(['stests'])
-                            //  ->toSql();
-                             ->get();
-                             return   $result;
+                            //  ->allowedFields(['name'])
+                            // ->where('active',1)
+                            ->allowedIncludes(['buyers',
+                            AllowedInclude::count('ProductsCount')])
+                            // ->with('buyers')
+
+                             ->withCount('buyers')
+                             ->withExists('buyers')
+
+
+
+                            //   ->toSql();
+                                 ->get();
+                                 return '<pre>' . json_encode($result, JSON_PRETTY_PRINT) . '</pre>';
     // return view('welcome');
 });

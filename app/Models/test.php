@@ -13,7 +13,11 @@ class test extends Model
 
     }
     public function stests(){
-        return $this->hasOne(test::class);
+        return $this->hasOne(stest::class);
+    }
+
+    public function middlename(){
+        return $this->hasOne(middlename::class);
     }
 
 
