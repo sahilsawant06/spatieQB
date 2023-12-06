@@ -19,18 +19,20 @@ use Spatie\QueryBuilder\AllowedInclude;
 |
 */
 
-Route::get('/', function () {
+Route::get('/shopper', function () {
+    // dd("hello");
     $result = QueryBuilder::for(Shopper::class)
-                            //  ->allowedFilters(['name',
-                            //  'email',
-                            //  AllowedFilter::exact('id'),AllowedFilter::scope('verified')])
+                             ->allowedFilters(['name',
+                             'id',
+                            //  AllowedFilter::exact('id'),AllowedFilter::scope('verified')
+                             ])
 
-                             ->allowedSorts(['name'])
+                            //  ->allowedSorts(['name'])
                             //  ->allowedFields(['name'])
                             // ->where('active',1)
                             ->allowedIncludes(['buyers',
                             AllowedInclude::count('ProductsCount')])
-                            // ->with('buyers')
+                             ->with('buyers')
 
                              ->withCount('buyers')
                              ->withExists('buyers')
